@@ -11,6 +11,8 @@ app.get('/', (req, res)=>{
      res.send("Hello This is Server")
 })
 
+//User auth endpoint
 app.use('/api/auth', authRouter)
+
 
 export default app
