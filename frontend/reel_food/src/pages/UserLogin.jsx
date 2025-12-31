@@ -7,25 +7,30 @@ const UserLogin = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
   
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
        e.preventDefault();
+       setError('');
 
-      const response = await axios.post('http://localhost:3000/api/auth/user/login',{
-          email,
-          password
-       },{
-         withCredentials: true
-       })
-      console.log(response.data)
+      try {
+          const response = await axios.post('http://localhost:3000/api/auth/user/login',{
+              email,
+              password
+           },{
+             withCredentials: true
+           })
+          console.log(response.data)
 
-       
-     setEmail('')
-     setPassword('')    
-     
-     navigate('/')
+         setEmail('')
+         setPassword('')    
+         
+         navigate('/')
+      } catch (err) {
+          setError(err.response?.data?.message || 'Something went wrong');
+      }
   }
 
   return (
@@ -60,6 +65,7 @@ const UserLogin = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {error && <div className="error-message">{error}</div>}
           <button type='submit' className='submit-btn'>Login</button>
         </form>
         <div className='auth-footer'>

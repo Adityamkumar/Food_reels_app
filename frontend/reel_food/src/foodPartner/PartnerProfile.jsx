@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 import './PartnerProfile.css';
 
 const PartnerProfile = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [partnerVideos, setPartnerVideos] = useState([]);
     const [partner, setPartner] = useState(null);
     const [stats, setStats] = useState({ meals: 0, customers: '0' });
-    const [selectedVideo, setSelectedVideo] = useState(null);
+
 
     useEffect(() => {
         const fetchPartnerData = async () => {
@@ -43,37 +45,16 @@ const PartnerProfile = () => {
     }, [id]);
 
     const openVideo = (video) => {
-        setSelectedVideo(video);
-    };
-
-    const closeVideo = () => {
-        setSelectedVideo(null);
-    };
-    
-    const toggleModalPlay = (e) => {
-        const videoEl = e.target;
-        if(videoEl.paused) videoEl.play();
-        else videoEl.pause();
+        navigate('/', { state: { videoId: video._id } });
     };
 
     return (
         <div className="profile-container">
-            {selectedVideo && (
-                <div className="video-modal">
-                    <button className="modal-close-btn" onClick={closeVideo}>&times;</button>
-                    <div className="modal-video-container">
-                        <video 
-                            src={selectedVideo.video} 
-                            className="modal-video"
-                            autoPlay 
-                            loop 
-                            controls={false}
-                            onClick={toggleModalPlay}
-                            playsInline
-                        />
-                    </div>
-                </div>
-            )}
+
+
+            <div className="profile-back-btn" onClick={() => navigate('/')}>
+                <ArrowLeft size={24} />
+            </div>
 
             <div className="profile-header-card">
                 <div className="profile-content-wrapper">

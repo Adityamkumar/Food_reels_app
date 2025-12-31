@@ -128,3 +128,11 @@
     grid-column: span 1;
   }
 }
+
+.error-message {
+    color: #ff2d55;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    text-align: left;
+    font-weight: 500;
+}

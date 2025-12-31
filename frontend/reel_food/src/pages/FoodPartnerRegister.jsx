@@ -63,7 +63,6 @@ const FoodPartnerRegister = () => {
                 <div className='auth-header'>
                     <h2>Partner Registration</h2>
                     <p>Grow your business with us</p>
-                    {error && <p style={{color: 'red', fontSize: '14px', marginTop: '5px'}}>{error}</p>}
                 </div>
                 <form className='auth-form auth-form-grid'
                     onSubmit={handleSubmit}>
@@ -103,6 +102,7 @@ const FoodPartnerRegister = () => {
                             value={formData.password}
                             onChange={handleChange}/>
                     </div>
+                    {error && <div className="error-message">{error}</div>}
                     <button type='submit' className='submit-btn' disabled={loading}>
                         {loading ? 'Registering...' : 'Register Business'}
                     </button>

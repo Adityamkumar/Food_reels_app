@@ -7,21 +7,28 @@ const FoodPartnerLogin = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
 
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
 
-        const response = await axios.post('http://localhost:3000/api/auth/food-partner/login', {
-            email,
-            password
-        }, {withCredentials: true}).then(reponse => {
-            setEmail('')
-            setPassword('')
+        try {
+            await axios.post('http://localhost:3000/api/auth/food-partner/login', {
+                email,
+                password
+            }, {withCredentials: true});
 
-            navigate('/create-food')
-        }).catch(error => console.error("Login failed:", error))
+            setEmail('');
+            setPassword('');
+
+            navigate('/create-food');
+        } catch (error) {
+            console.error("Login failed:", error);
+            setError(error.response?.data?.message || 'Login failed. Please check your credentials.');
+        }
     }
 
     return (
@@ -49,6 +56,7 @@ const FoodPartnerLogin = () => {
                                 (e) => setPassword(e.target.value)
                             }/>
                     </div>
+                    {error && <div className="error-message">{error}</div>}
                     <button type='submit' className='submit-btn'>Login to Dashboard</button>
                 </form>
                 <div className='auth-footer'>

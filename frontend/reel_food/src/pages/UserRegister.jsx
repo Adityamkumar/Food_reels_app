@@ -8,23 +8,30 @@ const UserRegister = () => {
     const [fullName, setFullName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
 
     const navigate = useNavigate()
 
     const submitHandler = async (e) => {
         e.preventDefault()
+        setError('')
 
-        const response = await axios.post('http://localhost:3000/api/auth/user/register', {
-            fullName,
-            email,
-            password
-        }, {withCredentials: true})
+        try {
+            const response = await axios.post('http://localhost:3000/api/auth/user/register', {
+                fullName,
+                email,
+                password
+            }, {withCredentials: true})
 
-        setFullName('')
-        setEmail('')
-        setPassword('')
+            setFullName('')
+            setEmail('')
+            setPassword('')
 
-        navigate('/')
+            navigate('/')
+        } catch (err) {
+            console.error(err)
+            setError(err.response?.data?.message || 'Registration failed')
+        }
     }
 
 
@@ -61,6 +68,7 @@ const UserRegister = () => {
                                 (e) => setPassword(e.target.value)
                             }/>
                     </div>
+                    {error && <div className="error-message">{error}</div>}
                     <button type='submit' className='submit-btn'>Sign Up</button>
                 </form>
                 <div className='auth-footer'>
