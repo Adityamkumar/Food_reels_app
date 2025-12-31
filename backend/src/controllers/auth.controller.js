@@ -17,7 +17,7 @@ export const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = userModel.create({
+    const user = await userModel.create({
       fullName,
       email,
       password: hashedPassword,
@@ -35,9 +35,9 @@ export const registerUser = async (req, res) => {
     res.status(201).json({
       message: "User register successfully",
       user: {
-        _id: (await user)._id,
-        fullName: (await user).fullName,
-        email: (await user).email,
+        _id: user._id,
+        fullName: user.fullName,
+        email: user.email,
       },
     });
   } catch (error) {
@@ -89,6 +89,17 @@ export const logoutUser = async (req, res) => {
   res.clearCookie("token");
   res.status(200).json({
     messsage: "User logged out successfully",
+  });
+};
+
+export const getCurrentUser = async (req, res) => {
+  const user = req.user;
+  res.status(200).json({
+    user: {
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+    },
   });
 };
 

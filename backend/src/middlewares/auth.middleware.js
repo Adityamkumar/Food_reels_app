@@ -1,4 +1,5 @@
 import foodPartnerModel from "../models/foodpartner.model.js";
+import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
 export const authFoodPartnerMiddleware = async (req, res, next) => {
@@ -14,6 +15,10 @@ export const authFoodPartnerMiddleware = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const foodPartner = await foodPartnerModel.findById(decoded.id);
+
+    if (!foodPartner) {
+        return res.status(401).json({ message: "Invalid token!" });
+    }
 
     req.foodPartner = foodPartner;
 
@@ -36,7 +41,12 @@ export const authUserMiddleware = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await foodPartnerModel.findById(decoded.id);
+    const user = await userModel.findById(decoded.id);
+
+    if (!user) {
+        return res.status(401).json({ message: "Invalid token" });
+    }
+
     req.user = user;
     next();
   } catch (error) {

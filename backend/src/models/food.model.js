@@ -16,6 +16,10 @@ const foodSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "foodpartner",
   },
+  likeCount: {
+    type: Number,
+    default: 0
+  }
 });
 
 const foodModel = await mongoose.model('food', foodSchema)

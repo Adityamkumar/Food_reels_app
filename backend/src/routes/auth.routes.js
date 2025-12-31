@@ -1,4 +1,5 @@
 import express from "express";
+import { authUserMiddleware } from "../middlewares/auth.middleware.js";
 import {
   registerUser,
   loginUser,
@@ -6,6 +7,7 @@ import {
   registerFoodPartner,
   loginFoodPartner,
   logoutFoodPartner,
+  getCurrentUser,
 } from "../controllers/auth.controller.js";
 
 const router = express.Router();
@@ -14,6 +16,7 @@ const router = express.Router();
 router.post("/user/register", registerUser);
 router.post("/user/login", loginUser);
 router.get("/user/logout", logoutUser);
+router.get("/user/me", authUserMiddleware, getCurrentUser);
 
 
 //Food-Partner auth APIs
