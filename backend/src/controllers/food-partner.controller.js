@@ -12,8 +12,18 @@ export const getFoodPartnerById = async (req, res) => {
          })
      }
 
+
      res.status(200).json({
         message:"Food Partner found successfully",
         foodPartner
      })
+}
+
+export const getCurrentPartner = async (req, res) => {
+    const foodPartner = req.foodPartner;
+    
+    res.status(200).json({
+        message: "Current partner fetched successfully",
+        foodPartner
+    });
 }

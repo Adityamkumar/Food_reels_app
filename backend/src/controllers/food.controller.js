@@ -20,13 +20,20 @@ export const createFood = async (req, res) => {
   });
 };
 
+
 export const getFoodItems = async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.user ? req.user._id : null;
   const foodItems = await foodModel.find({}).lean();
 
   const foodsWithStatus = await Promise.all(foodItems.map(async (food) => {
-     const isLiked = await likeModel.exists({ user: userId, food: food._id });
-     const isSaved = await saveModel.exists({ user: userId, food: food._id });
+     let isLiked = false;
+     let isSaved = false;
+
+     if (userId) {
+         isLiked = await likeModel.exists({ user: userId, food: food._id });
+         isSaved = await saveModel.exists({ user: userId, food: food._id });
+     }
+
      const likeCount = await likeModel.countDocuments({ food: food._id });
      return { ...food, isLiked: !!isLiked, isSaved: !!isSaved, likeCount };
   }));
@@ -36,6 +43,7 @@ export const getFoodItems = async (req, res) => {
     foodItems: foodsWithStatus,
   });
 };
+
 
 export const likeFood = async (req, res) => {
   const { foodId } = req.body;
@@ -126,3 +134,45 @@ export const getSavedFoods = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+export const getMyFoodItems = async (req, res) => {
+    try {
+        const partnerId = req.foodPartner._id;
+        const foodItems = await foodModel.find({ foodPartner: partnerId }).sort({ createdAt: -1 });
+
+        res.status(200).json({
+            message: "My food items fetched successfully",
+            foodItems
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+export const deleteFood = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const partnerId = req.foodPartner._id;
+
+        const food = await foodModel.findById(id);
+
+        if (!food) {
+            return res.status(404).json({ message: "Food item not found" });
+        }
+
+        if (food.foodPartner.toString() !== partnerId.toString()) {
+            return res.status(403).json({ message: "Unauthorized action" });
+        }
+
+        await likeModel.deleteMany({ food: id });
+        await saveModel.deleteMany({ food: id });
+        
+        await foodModel.findByIdAndDelete(id);
+
+        res.status(200).json({ message: "Food item deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
