@@ -17,4 +17,9 @@ const uploadFile = async (file, fileName) => {
   return result;
 };
 
-export { uploadFile };
+const getAuthParams = () => {
+  return imagekit.getAuthenticationParameters();
+};
+
+export { uploadFile, getAuthParams };
+

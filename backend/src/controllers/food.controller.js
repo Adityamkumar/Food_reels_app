@@ -5,12 +5,22 @@ import { uploadFile } from "../services/storage.service.js";
 import { v4 as uuidv4 } from "uuid";
 
 export const createFood = async (req, res) => {
-  const fileUploadResult = await uploadFile(req.file.buffer, uuidv4());
+  let videoUrl = req.body.video; // Expecting video URL directly from body (frontend upload)
+
+  // Legacy support for direct file upload (if needed, but frontend will likely use direct upload now)
+  if (!videoUrl && req.file) {
+      const fileUploadResult = await uploadFile(req.file.buffer, uuidv4());
+      videoUrl = fileUploadResult.url;
+  }
+
+  if (!videoUrl) {
+      return res.status(400).json({ message: "Video is required" });
+  }
 
   const foodItem = await foodModel.create({
     name: req.body.name,
     description: req.body.description,
-    video: fileUploadResult.url,
+    video: videoUrl,
     foodPartner: req.foodPartner._id,
   });
 
@@ -19,6 +29,18 @@ export const createFood = async (req, res) => {
     food: foodItem,
   });
 };
+
+export const getImageKitAuth = async (req, res) => {
+    try {
+        const result = getAuthParams();
+        res.status(200).json({
+            ...result,
+            publicKey: process.env.IMAGEKIT_PUBLIC_KEY
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Error generating auth params" });
+    }
+}
 
 
 export const getFoodItems = async (req, res) => {
