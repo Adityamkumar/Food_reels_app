@@ -4,6 +4,7 @@ import { ArrowLeft, Trash2 } from 'lucide-react';
 import axios from 'axios';
 import { API_URL } from '../config/api';
 import './PartnerProfile.css';
+import ProtectedVideo from '../components/ProtectedVideo';
 
 const PartnerDashboard = () => {
     const navigate = useNavigate();
@@ -173,7 +174,7 @@ const PartnerDashboard = () => {
             <div className="video-grid-container">
                 {partnerVideos.map((video) => (
                     <div className="grid-video-card" key={video._id} onClick={() => openVideo(video)}>
-                        <video 
+                        <ProtectedVideo 
                             src={video.video} 
                             className="grid-video-element"
                             muted

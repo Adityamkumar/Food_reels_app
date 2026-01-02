@@ -5,6 +5,7 @@ import {ArrowLeft, Grid, List} from 'lucide-react';
 import {useNavigate} from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 import './SavedFood.css';
+import ProtectedVideo from '../components/ProtectedVideo';
 
 const SavedFood = () => {
     const navigate = useNavigate();
@@ -46,7 +47,7 @@ const SavedFood = () => {
                 {savedItems.length > 0 ? (
                     savedItems.map(item => (
                         <div key={item._id} className="saved-item-card" onClick={() => navigate('/', { state: { videoId: item._id } })}>
-                            <video 
+                            <ProtectedVideo 
                                 src={item.video} 
                                 className="saved-item-image"
                                 muted

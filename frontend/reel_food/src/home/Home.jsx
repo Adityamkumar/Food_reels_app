@@ -4,6 +4,7 @@ import axios from 'axios';
 import { API_URL } from '../config/api';
 import { Heart, MessageCircle, Bookmark, Volume2, VolumeX } from 'lucide-react';
 import BottomNav from '../components/BottomNav';
+import ProtectedVideo from '../components/ProtectedVideo';
 import './Home.css';
 
 const Home = () => {
@@ -30,7 +31,6 @@ const Home = () => {
                     [data[i], data[j]] = [data[j], data[i]];
                 }
 
-                // If coming from Saved page, prioritize that video
                 if (location.state?.videoId) {
                     const targetIndex = data.findIndex(v => v._id === location.state.videoId);
                     if (targetIndex !== -1) {
@@ -211,7 +211,7 @@ const Home = () => {
         <div className="reels-container">
             {videos.map((video, index) => (
                 <div className="reel-item" key={video._id || index}>
-                    <video
+                    <ProtectedVideo
                         ref={el => videoRefs.current[index] = el}
                         src={video.video} 
                         className="reel-video"
