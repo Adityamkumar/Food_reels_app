@@ -1,7 +1,7 @@
 import foodModel from "../models/food.model.js";
 import likeModel from "../models/likes.model.js";
 import saveModel from "../models/save.model.js";
-import { uploadFile } from "../services/storage.service.js";
+import { uploadFile, getAuthParams } from "../services/storage.service.js";
 import { v4 as uuidv4 } from "uuid";
 
 export const createFood = async (req, res) => {
