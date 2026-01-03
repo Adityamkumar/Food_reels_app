@@ -27,7 +27,8 @@ export const registerUser = async (req, res) => {
       {
         id: user._id,
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      {expiresIn : "7d"}
     );
 
     res.cookie("token", token, {
@@ -71,7 +72,8 @@ export const loginUser = async (req, res) => {
       {
         id: user._id,
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      {expiresIn: "7d"}
     );
 
     res.cookie("token", token, {
@@ -125,7 +127,7 @@ export const registerFoodPartner = async (req, res) => {
 
     if (isAccountAlreadyExists) {
       return res.status(400).json({
-        message: "Food Partner cccount already exists!",
+        message: "Food Partner account already exists!",
       });
     }
 
@@ -143,7 +145,8 @@ export const registerFoodPartner = async (req, res) => {
       {
         _id: (await foodPartner)._id,
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      {expiresIn: "7d"}
     );
 
     res.cookie("token", token, {
@@ -196,7 +199,8 @@ export const loginFoodPartner = async (req, res) => {
       {
         id: foodPartner._id,
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      {expiresIn: "7d"}
     );
 
     res.cookie("token", token, {
