@@ -16,6 +16,15 @@ A full-stack web application that brings the engaging "Reels" experience to food
 ### 👨‍🍳 For Food Partners (Restaurants)
 *   **Dedicated Portal**: Separate Register/Login flow for businesses.
 *   **Content Creation**: Upload food videos with titles and descriptions.
+*   **🤖 AI-Assisted Content Creation (New)**:
+    *   **Smart Title & Description Generator**:  
+        Food Partners can generate **catchy, short video titles and descriptions using AI** during the upload process.
+    *   **Frictionless Upload Experience**:  
+        Reduces the effort of thinking about captions every time, allowing partners to focus on content creation.
+    *   **Editable Suggestions**:  
+        AI-generated text is **fully editable** before publishing, keeping creators in control.
+    *   **Secure & Rate-Limited**:  
+        AI generation runs on a protected backend API with **role-based access and rate limiting**.
 *   **Partner Dashboard**:
     *   View all uploaded videos.
     *   Track basic stats (Meals Served/Customer Reach).
@@ -27,6 +36,7 @@ A full-stack web application that brings the engaging "Reels" experience to food
     *   🔒 **Auth Rate Limiting**: lockout system to prevent brute-force attacks (5 attempts / 15 mins).
     *   🛡️ **Protected Video Playback**: Videos use Blob URLs to hide the source and prevent simple right-click downloads.
     *   👮 **Context Menu Blocking**: Disabled context menu on video elements.
+    *   🤖 **Secure AI Integration**: Backend-only AI endpoints with authentication, role checks, and rate limiting.
 *   **Performance**:
     *   **Skeleton Loading**: Premium skeleton loaders for a smooth initial load experience.
     *   **Optimistic UI**: Instant feedback on interactions before the server responds.
@@ -51,6 +61,7 @@ A full-stack web application that brings the engaging "Reels" experience to food
 *   **express-rate-limit**: For API rate limiting.
 *   **JWT & Cookies**: Secure authentication for both Users and Partners.
 *   **Multer & ImageKit**: Handling file uploads and media storage.
+*   **Gemini AI**: AI-assisted content generation for reel metadata.
 
 ---
 
@@ -78,6 +89,7 @@ A full-stack web application that brings the engaging "Reels" experience to food
         PORT=3000
         MONGODB_URI=your_mongodb_atlas_connection_string
         JWT_SECRET=your_jwt_secret
+        GEMINI_API_KEY=your_gemini_api_key
         # Add ImageKit credentials if required
         ```
     *   Start the server:
