@@ -4,9 +4,7 @@ import { configDotenv } from 'dotenv';
 
 configDotenv()
 
-configDotenv()
 
-// Wrap in async function to handle connection promise
 const startServer = async () => {
     try {
         await connectDB();
