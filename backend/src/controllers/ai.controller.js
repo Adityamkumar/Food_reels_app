@@ -26,7 +26,7 @@ Output format strictly as:
 Title: <title text>
 Description: <description text>`
 
-    const model = 'gemini-2.5-pro'
+    const model = 'gemini-3-flash-preview'
     const contents = [{
             role: "user",
             parts: [
